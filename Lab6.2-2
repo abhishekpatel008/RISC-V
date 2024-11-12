@@ -1,0 +1,38 @@
+.globl main
+.data
+A: .space 16 # Reserve 16 bytes of space for 4 elements of integer type
+sum: .word 0 # Declare a sum variable initialize to 0
+
+.text
+main: # Tell the program that the code starts here
+
+la a0,A #Laod address of A
+la a1,sum # Load address of sum variable
+
+li t1,10 # Load immediate value of 10 to t1
+sw t1,0(a0) # Store the value from t1 to A[0] # A[0] = 10
+li t2, 11 # Load immediate value of 11 to t2
+sw t2,4(a0) #Store the value from t2 to A[1] # A[1] = 11
+li t3,12 # Load immediate value of 12 to t3
+sw t3,8(a0) # Store value from t3 to A[2] # A[2] = 12
+li t4,13 # Load immediate value of 13 to t4
+sw t4,12(a0) #Store value from t4 to A[3] # A[3] = 13
+
+lw t1,0(a0) # Load value from t1 # t1 = A[0] = 10
+lw t2,4(a0) # Load value from t2 # t2 = A[1] = 11
+add t5,t1,t2 #t5 = A[0]+ A[1] = 10 + 11 = 21
+
+lw t3,8(a0) # Load value from t3 # t3 = A[2] = 12
+add t5,t3,t5 # t5 = A[0]+A[1]+A[2] = (10 + 11) + 12 = 33
+
+lw t4,12(a0) # Load value from t4 # t4 = A[3] = 13
+add t5,t5,t4 # t5 = A[0]+A[1]+A[2]+A[3] = (10 + 11 + 12) + 13 = 46
+
+sw t5,0(a1) # Store the value from t5 to the address of sum # sum = A[0] + A[1] + A[2] + A[3] or 10 + 11 + 12 + 13
+
+lw a0, 0(a1) # Load value of sum to a0 to print the output
+li a7,1 # System call to print integer
+ecall # Execute system call to print
+
+li a7,93 # System call to exit the program
+ecall # Execute system call to exit
